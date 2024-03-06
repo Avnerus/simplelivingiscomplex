@@ -11,17 +11,19 @@ import pathlib
 # Writing to calendar
 def save_to_calendar(_, task):
     event_summary = ""
+    due_date = ""
     for _ in task:
         # Removing due date
         if config['behaviour']['remove_due']== "1":
             if not _.startswith("due:"):
                 event_summary += _ + " "
+            else:
+                due_date = _ 
         else:
             event_summary += _ + " "
 
     event_summary = event_summary[:-1]
-
-    todo_date = datetime.strptime(_[4:], "%Y-%m-%d")
+    todo_date = datetime.strptime(due_date[4:], "%Y-%m-%d")
     today = date.today().strftime("%Y%m%d")
     uid = uuid.uuid4()
     event_date = todo_date.strftime("%Y%m%d")
